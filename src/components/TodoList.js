@@ -1,12 +1,18 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MdDelete } from "react-icons/md";
 import { useDispatch } from 'react-redux';
 import { deleteTodos } from '../reduxStore/TodoSlice';
+import { Checkbox } from 'antd';
 
-const TodoList = ({todo,_id}) => {
-  const dispatch = useDispatch()
-    const [mark, setMark] = useState(false);
+const TodoList = ({ todo, _id }) => {
+  const dispatch = useDispatch();
+  const [done, setDone] = useState(false);
+
+  const handleTodoRemove = () => {
+    dispatch(deleteTodos(_id));
+  };
+
   return (
     <motion.li
       initial={{ y: 10, opacity: 0 }}
@@ -14,19 +20,17 @@ const TodoList = ({todo,_id}) => {
       transition={{
         y: { type: "spring", stiffness: 120 },
       }}
-      onClick={() => setMark(!mark)}
       className={`${
-        mark
-          ? "border-l-orange-500 border-orange-900"
-          : "border-l-green-500 border-green-900"
+        done ? "line-through text-gray-500" : ""
       } w-full font-tiitleFont font-medium text-base border-[1px] border-l-[6px]  px-2 py-1 cursor-pointer flex items-center justify-between`}
     >
-      {todo}
-      <span onClick={()=>dispatch(deleteTodos(_id))} className="text-xl text-gray-300 hover:text-red-500 duration-300 cursor-pointer">
+      <Checkbox checked={done} onChange={(e) => setDone(e.target.checked)} />
+      <span>{todo}</span>
+      <span onClick={handleTodoRemove} className="text-xl text-gray-300 hover:text-red-500 duration-300 cursor-pointer">
         <MdDelete />
       </span>
     </motion.li>
   );
 }
 
-export default TodoList
+export default TodoList;
