@@ -72,7 +72,7 @@ const InputForm = () => {
     setCategory(value);
   };
 
-  const filteredTodos = category === '' ? todosItem : todosItem.filter(item => item.category === category);
+  const filteredTodos = category === 'Categories' ? todosItem : todosItem.filter(item => item.category === category);
 
   useEffect(() => {
     const timer = setTimeout(() => {
